@@ -1,7 +1,7 @@
+import {useEffect, useState, useRef} from 'react'
 import './style.css'
 import Trash from '../../assets/trash.svg'
-import api from '../../services/api'
-import {useEffect, useState, useRef} from 'react'
+import ClienteService from '../../services/cliente-service'
 
 function Home() {
 
@@ -13,27 +13,28 @@ function Home() {
 
 
   async function obterUsuarios() {
-    setUsers(await (await api.get('/api/v1/cliente')).data)
+    const usuarios = await ClienteService.obterUsuarios()
+    setUsers(usuarios)
     console.log(users)
   }
 
   async function criarUsuarios() {
-    
+
     const data = {
       nome: inputNome.current.value,
       idade: inputIdade.current.value,
       email: inputEmail.current.value
     }
 
-    await api.post('/api/v1/cliente', data)
-    obterUsuarios()
+    await ClienteService.criarUsuario(data)
+    await  obterUsuarios()
     limparCampos()
  
   }
 
   async function deletarUsuario(id) {
-    await api.delete(`/api/v1/cliente/${id}`)
-    obterUsuarios()
+    await ClienteService.deletarUsuario(id)
+    await obterUsuarios()
   }
 
   function limparCampos() {
