@@ -12,21 +12,21 @@ class Validacao {
   
 
       if (!data.nome || data.nome.trim() === '') {
-        erros.push('O campo Nome é obrigatório.');
+        erros.push('O nome do cliente é obrigatório.');
       } else if (/[^a-zA-ZÀ-ÿ\s]/.test(data.nome)) {
-        erros.push('O campo Nome não pode conter caracteres especiais ou números.');
+        erros.push('O nome do cliente não pode conter caracteres especiais ou números.');
       }
   
       
       if (!data.idade || isNaN(data.idade) || data.idade <= 0) {
-        erros.push('O campo Idade deve ser um número maior que zero.');
+        erros.push('A idade do cliente deve ser um número maior que zero.');
       }
   
       
       if (!data.email || data.email.trim() === '') {
-        erros.push('O campo Email é obrigatório.');
+        erros.push('O email do cliente é obrigatório.');
       } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-        erros.push('O campo Email deve conter um endereço válido.');
+        erros.push('O email do cliente deve conter um endereço válido.');
       }
       return erros;
     }

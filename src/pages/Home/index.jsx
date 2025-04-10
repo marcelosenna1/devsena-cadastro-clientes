@@ -15,13 +15,13 @@ function Home() {
   const inputEmail = useRef();
 
 
-  async function obterUsuarios() {
-    const usuarios = await ClienteService.obterUsuarios()
+  async function listarClientes() {
+    const usuarios = await ClienteService.listarClientes()
     setUsers(usuarios)
     console.log(users)
   }
 
-  async function criarUsuarios() {
+  async function cadastrarCliente() {
 
     const data = {
       nome: inputNome.current.value,
@@ -42,21 +42,21 @@ function Home() {
     }
 
     try {
-      await ClienteService.criarUsuario(data)
-      await obterUsuarios();
+      await ClienteService.cadastrarCliente(data)
+      await listarClientes();
       limparCampos();
-      toast.success('Usuário cadastrado com sucesso!');
+      toast.success('Cliente cadastrado com sucesso!');
     } catch (error) {
-      console.error('Erro ao criar usuário:', error);
-      toast.error('Erro ao cadastrar usuário. Verifique os dados e tente novamente.');
+      console.error('Erro ao criar cliente:', error);
+      toast.error('Erro ao cadastrar cliente. Verifique os dados e tente novamente.');
     }
 
   }
 
-  async function deletarUsuario(id) {
+  async function deletarCliente(id) {
 
     const confirmacao = await Swal.fire({
-      title: 'Tem certeza que deseja deletar este usuário?',
+      title: 'Tem certeza que deseja deletar este cliente?',
       showCancelButton: true,
       confirmButtonText: 'Sim',
       cancelButtonText: 'Cancelar'
@@ -67,12 +67,12 @@ function Home() {
     }
 
     try {
-      await ClienteService.deletarUsuario(id)
-      await obterUsuarios()
-      toast.success('Usuário deletado com sucesso!');
+      await ClienteService.deletarCliente(id)
+      await listarClientes()
+      toast.success('Cliente deletado com sucesso!');
     } catch (error) {
-      console.error('Erro ao deletar usuário:', error);
-      toast.error('Erro ao deletar usuário. Tente novamente.');
+      console.error('Erro ao deletar cliente:', error);
+      toast.error('Erro ao deletar cliente. Tente novamente.');
     }
 
   }
@@ -85,7 +85,7 @@ function Home() {
   }
 
   useEffect(() => {
-    obterUsuarios()
+    listarClientes()
   }, [])
 
 
@@ -93,11 +93,11 @@ function Home() {
     <>
       <div className='container'>
         <form>
-          <h1>Cadastro de Usuários</h1>
+          <h1>Cadastro de Clientes</h1>
           <input placeholder='Nome' name='Nome' type='text' ref={inputNome} />
           <input placeholder='Idade' name='Idade' type='number' ref={inputIdade} />
           <input placeholder='Email' name='Email' type='email' ref={inputEmail} />
-          <button type='button' onClick={criarUsuarios} >Cadastrar</button>
+          <button type='button' onClick={cadastrarCliente} >Cadastrar</button>
         </form>
 
         {users.map(user => (
@@ -107,7 +107,7 @@ function Home() {
               <p>Idade: <span>{user.idade}</span></p>
               <p>Email: <span>{user.email}</span></p>
             </div>
-            <button type='button' onClick={() => deletarUsuario(user.id)}>
+            <button type='button' onClick={() => deletarCliente(user.id)}>
               <img src={Trash} />
             </button>
           </div>
